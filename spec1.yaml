@@ -1,0 +1,222 @@
+openapi: 3.0.3
+
+info:
+  title: EazyShop Products APIS definition
+  description: |
+    Using this OpenAPI specification, any consumer can undertand the APIs, provided by eazy shop market
+  termsOfService: https://eazyshop.com/terms
+  contact:
+    name: EazyShop
+    url: https://eazyshop.com/support
+    email: example@email.com
+  license:
+    name: EazyShop License
+    url: https://eazyshop.com/license
+  version: 0.0.1
+servers:
+  - url: https://somerserver.com
+    description: some description one
+  - url: https://somerserver2.com
+    description: some description two
+  - url: https://somerserver3.com
+    description: some description three
+  - url: https://{username}.server.com:{port}/{version}
+    variables:
+      username:
+        default: demo
+        description: This value is assigned by service provider
+      port:
+        enum:
+          - '8443'
+          - '443'
+        default: "8443"
+      version:
+        default: v1
+paths:
+  /categories:
+    get:
+      summary: list of all categories
+      description: returns list of all categories returned by EazyShopAPI
+      parameters:
+        - name: categoryId
+          in: query
+          schema:
+            type: integer
+            minimum: 100
+            maximum: 1000
+          required: true
+          example: 101
+      responses:
+        '200':
+          description: A list of categories
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    categoryId:
+                      type: integer
+                    name:
+                      type: string
+  /categories/{id}:
+    get:
+      summary: signle category
+      description: returns list of all categories returned by EazyShopAPI
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            minimum: 100
+            maximum: 1000
+          example: 101
+      responses:
+        '200':
+          description: A list of categories
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  categoryId:
+                    type: integer
+                  name:
+                    type: string
+  /products:
+    get:
+      summary: returns products by some category
+      description: returns list of profucts by category
+      parameters:
+        - name: categoryId
+          in: query
+          required: true
+          schema:
+            type: integer
+            minimum: 100
+            maximum: 1000
+          example: 101
+      responses:
+        '200':
+          description: A list of products by some category
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    categoryName:
+                      type: string
+                      example: Cell Phones
+                    productId:
+                      type: integer
+                      example: 10
+                    name:
+                      type: string
+                      example: 'Galaxy S23'
+                    quantity:
+                      type: integer
+                      example: 23
+                    price:
+                      type: number
+                      example: 800
+  /products/{id}:
+    get:
+      summary: detailed product page with specs
+      description: product page with all characteristics and stats
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 1000
+          example: 1
+      responses:
+        '200':
+          description: detailed information about product
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 10
+                  name:
+                    type: string
+                    example: "Galaxy S23"
+                  images:
+                    type: array
+                    items:
+                      type: string
+                  price:
+                    type: integer
+                    example: 800
+                  specification:
+                    type: object
+                    properties:
+                      width:
+                        type: number
+                        example: 4.1
+                      height:
+                        type: number
+                        example: 5.9
+                      ppi:
+                        type: integer
+                        example: 450
+                      displayResolution:
+                        type: string
+                        example: QHD
+  /orders:
+    post:
+      summary: Create order
+      description: |
+        Post order details to EazyShop for processing and shipping
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                products:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      productId:
+                        type: integer
+                      name:
+                        type: string
+                      price:
+                        type: number
+                      categoryName:
+                        type: string
+                      quantity:
+                        type: integer
+                address:
+                  type: object
+                  properties:
+                    addressLine:
+                      type: string
+                    city:
+                      type: string
+                    state:
+                      type: string
+                    zipcode:
+                      type: string
+      responses:
+        '201':
+          description: Order created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  orderId:
+                    type: integer
+
