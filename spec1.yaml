@@ -3,7 +3,20 @@ openapi: 3.0.3
 info:
   title: EazyShop Products APIS definition
   description: |
-    Using this OpenAPI specification, any consumer can undertand the APIs, provided by eazy shop market
+    # About us
+    **EazyShop** is a open market product selling company. Any website can list
+    our products by using our _APIs_.
+    Shipping & other logistics will be taken care by us. You will get an
+    `Affiliate commission` for selling our products
+    # Categories is supported
+      - Mobiles
+        - Samsung
+        - OnePlus
+        - Apple
+      - Laptops
+      - Televisions
+      - Headphones
+    Using this OpenAPI specification, any consumer can understand the APIs, provided by eazy shop market
   termsOfService: https://eazyshop.com/terms
   contact:
     name: EazyShop
@@ -120,6 +133,13 @@ paths:
                     quantity:
                       type: integer
                       example: 23
+                      description: |
+                        ***Quantity*** represents `stock` value when
+                        this field is being sent to EazyShop. Where
+                        as in the scenarios of consumer sending this field, it represents
+                        `number of product items` inside the order. Consumers are expected
+                        to handle the scenario of stopping the end user <u>*when the stock is 0
+                        *</u>
                     price:
                       type: number
                       example: 800
