@@ -88,12 +88,7 @@ paths:
               schema:
                 type: array
                 items:
-                  type: object
-                  properties:
-                    categoryId:
-                      type: integer
-                    name:
-                      type: string
+                  $ref: "#/components/schemas/Category"
               examples:
                 products-data:
                   summary: Products example data
@@ -117,7 +112,7 @@ paths:
     get:
       tags:
         - Categories
-      summary: signle category
+      summary: single category
       description: returns list of all categories returned by EazyShopAPI
       parameters:
         - name: id
@@ -134,12 +129,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  categoryId:
-                    type: integer
-                  name:
-                    type: string
+                $ref: "#/components/schemas/Category"
   /products:
     get:
       tags:
@@ -163,30 +153,7 @@ paths:
               schema:
                 type: array
                 items:
-                  type: object
-                  properties:
-                    categoryName:
-                      type: string
-                      example: Cell Phones
-                    productId:
-                      type: integer
-                      example: 10
-                    name:
-                      type: string
-                      example: 'Galaxy S23'
-                    quantity:
-                      type: integer
-                      example: 23
-                      description: |
-                        ***Quantity*** represents `stock` value when
-                        this field is being sent to EazyShop. Where
-                        as in the scenarios of consumer sending this field, it represents
-                        `number of product items` inside the order. Consumers are expected
-                        to handle the scenario of stopping the end user <u>*when the stock is 0
-                        *</u>
-                    price:
-                      type: number
-                      example: 800
+                  $ref: "#/components/schemas/Product"
   /products/{id}:
     get:
       tags:
@@ -254,29 +221,9 @@ paths:
                 products:
                   type: array
                   items:
-                    type: object
-                    properties:
-                      productId:
-                        type: integer
-                      name:
-                        type: string
-                      price:
-                        type: number
-                      categoryName:
-                        type: string
-                      quantity:
-                        type: integer
+                    $ref: "#/components/schemas/Product"
                 address:
-                  type: object
-                  properties:
-                    addressLine:
-                      type: string
-                    city:
-                      type: string
-                    state:
-                      type: string
-                    zipcode:
-                      type: string
+                  $ref: "#/components/schemas/Address"
       responses:
         '201':
           description: Order created successfully
@@ -304,29 +251,9 @@ paths:
                 products:
                   type: array
                   items:
-                    type: object
-                    properties:
-                      productId:
-                        type: integer
-                      name:
-                        type: string
-                      price:
-                        type: number
-                      categoryName:
-                        type: string
-                      quantity:
-                        type: integer
+                    $ref: "#/components/schemas/Product"
                 address:
-                  type: object
-                  properties:
-                    addressLine:
-                      type: string
-                    city:
-                      type: string
-                    state:
-                      type: string
-                    zipcode:
-                      type: string
+                  $ref: "#/components/schemas/Address"
       responses:
         '200':
           description: Order details updated successfuly
@@ -343,32 +270,17 @@ paths:
       summary: Delete order
       description: Delete order details from EazyShop
       parameters:
-        - name: orderId
-          in: query
-          required: true
-          schema:
-            type: integer
+        - $ref: "#/components/parameters/orderIdQueryParam"
       responses:
         '204':
-          description: Order details updated successfully
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  orderId:
-                    type: integerweq2eq
+          description: Order details cancelled successfully
     get:
       tags:
         - Orders
       summary: get order
       description: get order details from EazyShop
       parameters:
-        - name: orderId
-          in: query
-          required: true
-          schema:
-            type: integer
+        - $ref: "#/components/parameters/orderIdQueryParam"
       responses:
         '200':
           description: Fetch order details successfully
@@ -380,26 +292,59 @@ paths:
                   products:
                     type: array
                     items:
-                      type: object
-                      properties:
-                        productId:
-                          type: integer
-                        name:
-                          type: string
-                        price:
-                          type: number
-                        categoryName:
-                          type: string
-                        quantity:
-                          type: integer
+                      $ref: "#/components/schemas/Product"
                   address:
-                    type: object
-                    properties:
-                      addressLine:
-                        type: string
-                      city:
-                        type: string
-                      state:
-                        type: string
-                      zipcode:
-                        type: string
+                    $ref: "#/components/schemas/Address"
+components:
+  parameters:
+    orderIdQueryParam:
+      name: orderId
+      in: query
+      required: true
+      schema:
+        type: integer
+  schemas:
+    Address:
+      type: object
+      properties:
+        addressLine:
+          type: string
+        city:
+          type: string
+        state:
+          type: string
+        zipcode:
+          type: string
+      required: [addressLine, city, state, zipcode]
+    Product:
+      type: object
+      properties:
+        categoryName:
+          type: string
+          example: Cell Phones
+        productId:
+          type: integer
+          example: 10
+        name:
+          type: string
+          example: 'Galaxy S23'
+        quantity:
+          type: integer
+          example: 23
+          description: |
+            ***Quantity*** represents `stock` value when
+            this field is being sent to EazyShop. Where
+            as in the scenarios of consumer sending this field, it represents
+            `number of product items` inside the order. Consumers are expected
+            to handle the scenario of stopping the end user <u>*when the stock is 0
+            *</u>
+        price:
+          type: number
+          example: 800
+    Category:
+      type: object
+      properties:
+        categoryId:
+          type: integer
+        name:
+          type: string
