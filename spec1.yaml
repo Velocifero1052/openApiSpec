@@ -45,9 +45,18 @@ servers:
         default: "8443"
       version:
         default: v1
+tags:
+  - name: Categories
+    description: categories related operations
+  - name: Products
+    description: Products-related operations
+  - name: Orders
+    description: Orders-related operations
 paths:
   /categories:
     get:
+      tags:
+        - Categories
       summary: list of all categories
       description: returns list of all categories returned by EazyShopAPI
       parameters:
@@ -58,7 +67,19 @@ paths:
             minimum: 100
             maximum: 1000
           required: true
-          example: 101
+          examples:
+            mobiles:
+              summary: Use this example for mobiles
+              value: 101
+            laptops:
+              summary: Use this example for laptops
+              value: 102
+            headphones:
+              summary: Use this example for headphones
+              value: 103
+            televisions:
+              summary: Use this examples for televisions
+              value: 104
       responses:
         '200':
           description: A list of categories
@@ -73,8 +94,29 @@ paths:
                       type: integer
                     name:
                       type: string
+              examples:
+                products-data:
+                  summary: Products example data
+                  value:
+                    - productId: 101
+                      name: Apple IPhone 13 pro
+                      price: 999.0
+                      categoryName: Mobiles
+                      quantity: 96
+                    - productId: 102
+                      name: Samsung s23 Ultra
+                      price: 899.0
+                      categoryName: Mobiles
+                      quantity: 121
+                    - productId: 103
+                      name: OnePlus 10 Pro 5G
+                      price: 750.0
+                      categoryName: Mobiles
+                      quantity: 67
   /categories/{id}:
     get:
+      tags:
+        - Categories
       summary: signle category
       description: returns list of all categories returned by EazyShopAPI
       parameters:
@@ -100,6 +142,8 @@ paths:
                     type: string
   /products:
     get:
+      tags:
+        - Products
       summary: returns products by some category
       description: returns list of profucts by category
       parameters:
@@ -145,6 +189,8 @@ paths:
                       example: 800
   /products/{id}:
     get:
+      tags:
+        - Products
       summary: detailed product page with specs
       description: product page with all characteristics and stats
       parameters:
@@ -194,6 +240,8 @@ paths:
                         example: QHD
   /orders:
     post:
+      tags:
+        - Orders
       summary: Create order
       description: |
         Post order details to EazyShop for processing and shipping
@@ -240,6 +288,8 @@ paths:
                   orderId:
                     type: integer
     put:
+      tags:
+        - Orders
       summary: Update order
       description: |
         Update order details to EazyShop for processing and shipping
@@ -288,6 +338,8 @@ paths:
                   orderId:
                     type: integer
     delete:
+      tags:
+        - Orders
       summary: Delete order
       description: Delete order details from EazyShop
       parameters:
@@ -307,6 +359,8 @@ paths:
                   orderId:
                     type: integerweq2eq
     get:
+      tags:
+        - Orders
       summary: get order
       description: get order details from EazyShop
       parameters:
