@@ -1,5 +1,7 @@
 openapi: 3.0.3
-
+externalDocs:
+  description: External documentation
+  url: https://example.com
 info:
   title: EazyShop Products APIS definition
   description: |
@@ -59,6 +61,14 @@ tags:
     description: Products-related operations
   - name: Orders
     description: Orders-related operations
+security:
+  - BasicAuth: []
+  - BearerAuth: []
+  - ApiKeyAuth: []
+  - oAuth2AuthCode:
+      - read
+      - write
+      - admin
 paths:
   /categories:
     get:
@@ -67,6 +77,8 @@ paths:
       summary: list of all categories
       description: returns list of all categories returned by EazyShopAPI
       operationId: getCategories
+      security:
+        - BasicAuth: []
       parameters:
         - name: categoryId
           in: query
@@ -409,6 +421,28 @@ paths:
                   - $ref: "#/components/schemas/OrderSummary"
                   - $ref: "#/components/schemas/OrderAddress"
 components:
+  securitySchemes:
+    BasicAuth:
+      type: http
+      scheme: basic
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-KEY
+    oAuth2AuthCode:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://example.com/oauth/authorize
+          tokenUrl: https://example.com/api/oauth.access
+          scopes:
+            read: Read only access
+            write: Read write access
+            admin: Admin access
   parameters:
     orderIdQueryParam:
       name: orderId
