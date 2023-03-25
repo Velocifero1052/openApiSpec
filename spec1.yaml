@@ -18,6 +18,13 @@ info:
       - Headphones
     Using this OpenAPI specification, any consumer can understand the APIs, provided by eazy shop market
   termsOfService: https://eazyshop.com/terms
+  x-custom-info:
+    comment: Some comments
+    developers:
+      - name: John Doe
+        email: john@doe.com
+      - name: Jane Doe
+        email: jane@doe.com
   contact:
     name: EazyShop
     url: https://eazyshop.com/support
@@ -246,6 +253,9 @@ paths:
                 properties:
                   orderId:
                     type: integer
+          links:
+            GetOrderByOrderId:
+              $ref: "#/components/links/GetOrderByOrderId"
         '500':
           $ref: "#/components/responses/InternalServerError"
     put:
@@ -315,8 +325,34 @@ paths:
                     $ref: "#/components/schemas/Address"
         '500':
           $ref: "#/components/responses/InternalServerError"
+  /orders/{orderId}:
+    get:
+      deprecated: true
+      tags:
+        - Orders
+      summary: get order
+      description: get order details from EazyShop
+      parameters:
+        - $ref: "#/components/parameters/orderIdPathParam"
+      responses:
+        '200':
+          description: Fetch order details successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  products:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Product"
+                  address:
+                    $ref: "#/components/schemas/Address"
+        '500':
+          $ref: "#/components/responses/InternalServerError"
   /oneOfOrder:
     post:
+      deprecated: true
       tags:
         - Orders
       summary: Insert OneOf the Order Details
@@ -343,6 +379,7 @@ paths:
           description: Order placed successfully
   /anyOfOrder:
     get:
+      deprecated: true
       tags:
         - Orders
       summary: Get Order details
@@ -376,6 +413,12 @@ components:
     orderIdQueryParam:
       name: orderId
       in: query
+      required: true
+      schema:
+        type: integer
+    orderIdPathParam:
+      name: orderId
+      in: path
       required: true
       schema:
         type: integer
@@ -476,3 +519,11 @@ components:
       description: |
         An error occurred while processing the request.
         Please contact support@eazyshop.com
+  links:
+    GetOrderByOrderId:
+      description: >
+        The `orderId` value returned in the response can be used as input parameter in `GET /orders`.
+      operationId:
+        getProductDetails
+      parameters:
+        orderId: '$response.body#/orderId'
