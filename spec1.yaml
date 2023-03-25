@@ -59,6 +59,7 @@ paths:
         - Categories
       summary: list of all categories
       description: returns list of all categories returned by EazyShopAPI
+      operationId: getCategories
       parameters:
         - name: categoryId
           in: query
@@ -116,6 +117,7 @@ paths:
         - Categories
       summary: single category
       description: returns list of all categories returned by EazyShopAPI
+      operationId: getCategoryDetails
       parameters:
         - name: id
           in: path
@@ -166,6 +168,7 @@ paths:
         - Products
       summary: detailed product page with specs
       description: product page with all characteristics and stats
+      operationId: getProductDetails
       parameters:
         - name: id
           in: path
@@ -220,6 +223,7 @@ paths:
       summary: Create order
       description: |
         Post order details to EazyShop for processing and shipping
+      operationId: saveOrderDetails
       requestBody:
         content:
           application/json:
@@ -317,6 +321,7 @@ paths:
         - Orders
       summary: Insert OneOf the Order Details
       description: Insert OneOf the order details into eazyshop
+      operationId: demoOfOneOf
       requestBody:
         content:
           application/json:
@@ -342,6 +347,7 @@ paths:
         - Orders
       summary: Get Order details
       description: Get order details based on Order ID
+      operationId: demoOfAnyOf
       parameters:
         - $ref: "#/components/parameters/orderIdQueryParam"
         - name: fetchType
